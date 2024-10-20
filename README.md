@@ -2,7 +2,8 @@
 
 This is a web application that generates, analyzes, and visualizes Dual-Tone Multi-Frequency (DTMF) signals. 
 
-![Uploading ezgif-4-651dc86fe6.gif…]()
+![ezgif-4-651dc86fe6](https://github.com/user-attachments/assets/81abbf57-23ab-45b9-bb83-b9db595fcd59)
+
 
 ## Features
 - **Audio Playback**: Play the generated DTMF tone.
