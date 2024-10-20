@@ -26,7 +26,7 @@ def generate_dtmf_tone(key, duration=0.5, fs=8000):
 
 def plot_time_domain(t, signal):
     plt.figure()
-    plt.plot(t[:100], signal[:100])  # Plot the first 100 points
+    plt.plot(t[:100], signal[:100])  
     plt.title("Time-Domain Signal (First 100 Samples)")
     plt.xlabel("Time (s)")
     plt.ylabel("Amplitude")
@@ -35,7 +35,7 @@ def plot_time_domain(t, signal):
     buf.seek(0)
     img = base64.b64encode(buf.read()).decode('utf-8')
     buf.close()
-    plt.close()  # Close the plot
+    plt.close()  
     return img
 
 def plot_frequency_spectrum(signal, fs, detected_key=None):
@@ -45,12 +45,11 @@ def plot_frequency_spectrum(signal, fs, detected_key=None):
     magnitude = np.abs(fft_vals)
 
     plt.figure()
-    plt.plot(freqs[:N//2], magnitude[:N//2])  # Plot only the positive frequencies
+    plt.plot(freqs[:N//2], magnitude[:N//2]) 
     plt.title("Frequency Spectrum")
     plt.xlabel("Frequency (Hz)")
     plt.ylabel("Magnitude")
 
-    # Annotate the detected DTMF key on the plot
     if detected_key is not None:
         plt.annotate(f'Detected DTMF Key: {detected_key}', 
                      xy=(0.5, 0.9), 
@@ -64,7 +63,7 @@ def plot_frequency_spectrum(signal, fs, detected_key=None):
     buf.seek(0)
     img = base64.b64encode(buf.read()).decode('utf-8')
     buf.close()
-    plt.close()  # Close the plot
+    plt.close() 
     return img
 
 def identify_dtmf_key(freqs, magnitude, fs=8000):
