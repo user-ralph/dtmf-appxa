@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTMF Signal Processing</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #D8E1E9;
+        }
+
+        .pageTitle {
+            text-align: center;
+            color: #030027;
+            font-weight: bold;
+            margin-top: 50px;
+            margin-bottom: 25px;
+            font-size: 25px;
+        }
+
+        .cardTitleA {
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        #detectedKey {
+            font-size: 15px;
+            color: #DE6E4B;
+            font-weight: bold;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="pageTitle">DTMF Signal Processing</h1>
+
+    <div class="container">
+        <div class="card w-50 mb-3 mx-auto">
+            <div class="card-header">
+                <p class="cardTitleA">Phone Keypad</p>
+            </div>
+            <div class="card-body mx-auto">
+                <form id="keyForm">
+                    <div class="row text-center">
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-primary" onclick="displayKey('1')">1</button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-primary" onclick="displayKey('2')">2</button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-primary" onclick="displayKey('3')">3</button>
+                        </div>
+                    </div>
+                    <div class="row text-center mt-2">
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-primary" onclick="displayKey('4')">4</button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-primary" onclick="displayKey('5')">5</button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-primary" onclick="displayKey('6')">6</button>
+                        </div>
+                    </div>
+                    <div class="row text-center mt-2">
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-primary" onclick="displayKey('7')">7</button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-primary" onclick="displayKey('8')">8</button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-primary" onclick="displayKey('9')">9</button>
+                        </div>
+                    </div>
+                    <div class="row text-center mt-2">
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-primary" onclick="displayKey('*')">*</button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-primary" onclick="displayKey('0')">0</button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-primary" onclick="displayKey('#')">#</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <p>Key Entered: <span id="keyEntered">None</span></p>
+                <button type="button" class="btn btn-outline-success" onclick="generateVisualizations()">Generate and Visualize</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card w-50 mb-3 mx-auto">
+        <div class="card-header">
+            Time-Domain Analysis
+        </div>
+        <div class="card-body">
+            <img id="timeDomainImg" src="" alt="Time Domain" style="width: 100%; display:none;">
+        </div>
+    </div>
+
+    <div class="card w-50 mb-3 mx-auto">
+        <div class="card-header">
+            Frequency-Domain Analysis
+        </div>
+        <div class="card-body">
+            <img id="frequencyDomainImg" src="" alt="Frequency Domain" style="width: 100%; display:none;">
+        </div>
+    </div>
+
+    <div class="card w-50 mb-3 mx-auto">
+        <div class="card-header">
+            Detected DTMF Key 
+        </div>
+        <div class="card-body">
+            <p id="detectedKey">Detected DTMF Key: None</p>
+        </div>
+    </div>
+    <div class="card w-50 mb-3 mx-auto">
+        <div class="card-header">
+            DTMF Frequency Table
+        </div>
+        <div class="card-body">
+            <button type="button" class="btn btn-outline-dark" id="liveToastBtn">Show DTMF Table</button>
+
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+    
+                <strong class="me-auto">DTMF Signal Processing</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <div class="text-center">
+                        <img src="https://www.unitedworldtelecom.com/wp-content/uploads/2022/11/DTMF-chart-gcf.png" alt=""  style="width: 300px; height: 400px;">
+                      </div>
+                </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        function displayKey(key) {
+            document.getElementById('keyEntered').innerText = key;
+        }
+    
+        function generateVisualizations() {
+            const key = document.getElementById('keyEntered').innerText;
+            if (key === "None") {
+                alert("Please select a key first!");
+                return;
+            }
+    
+            fetch('/process', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({key: key})
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('timeDomainImg').src = 'data:image/png;base64,' + data.time_domain_img;
+                document.getElementById('timeDomainImg').style.display = 'block';
+                document.getElementById('frequencyDomainImg').src = 'data:image/png;base64,' + data.frequency_domain_img;
+                document.getElementById('frequencyDomainImg').style.display = 'block';
+                document.getElementById('detectedKey').innerText = 'Detected DTMF Key: ' + data.detected_key;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        const toastTrigger = document.getElementById('liveToastBtn')
+        const toastLiveExample = document.getElementById('liveToast')
+
+        if (toastTrigger) {
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+        toastTrigger.addEventListener('click', () => {
+            toastBootstrap.show()
+        })
+        }
+    </script>    
+
+</body>
+</html>
